@@ -29,25 +29,25 @@
             <tbody>
                 @foreach (var item in Model.AvesAtivas)
                 {
-                <tr ondblclick="goToDetails(@item.id)">
-                    <td>@Html.DisplayFor(modelItem => item.codigo)</td>
-                    <td>@Html.DisplayFor(modelItem => item.nome)</td>
-                    <td>
-                        @if (item.sexo.Equals((int)SexoEnun.Femea))
-                        {
-                <span>Femea</span> }
-                                else
-                                {
-                <span>Macho</span>}
-                    </td>
-                    <td>@Html.DisplayFor(modelItem => item.cor)</td>
-                    <td>@Html.DisplayFor(modelItem => item.dt_nascimento)</td>
-                    <td>
-                        <a href="#" id="@item.id" class="edit"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
-                        <a href="deleteEmployeeModal" id="@item.id" class="delete" onclick="excluir(this)" data-toggle="modal" data-target="#excluir"><i class="material-icons" data-toggle="tooltip" title="Inativar">&#xE5C9;</i></a>
-                    </td>
-                </tr>
-                    }
+                    <tr ondblclick="goToDetails(@item.id)">
+                        <td>@Html.DisplayFor(modelItem => item.codigo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.nome)</td>
+                        <td>
+                            @if (item.sexo.Equals((int)SexoEnun.Femea))
+                            {
+                                <span>Femea</span> }
+                            else
+                            {
+                                <span>Macho</span>}
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.cor)</td>
+                        <td>@Html.DisplayFor(modelItem => item.dt_nascimento)</td>
+                        <td>
+                            <a href="#" id="@item.id" class="edit"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
+                            <a href="deleteEmployeeModal" id="@item.id" class="delete" onclick="excluir(this)" data-toggle="modal" data-target="#excluir"><i class="material-icons" data-toggle="tooltip" title="Inativar">&#xE5C9;</i></a>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
@@ -73,11 +73,11 @@
                         <td>
                             @if (item.sexo.Equals((int)SexoEnun.Femea))
                             {
-                                <span>Femea</span> 
+                                <span>Femea</span>
                             }
                             else
                             {
-                                 <span>Macho</span>
+                                <span>Macho</span>
                             }
                         </td>
                         <td>@Html.DisplayFor(modelItem => item.cor)</td>
@@ -90,8 +90,8 @@
                             <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                         </td>
                     </tr>
-                  }
-               </tbody>
+                }
+            </tbody>
         </table>
     </div>
 </div>

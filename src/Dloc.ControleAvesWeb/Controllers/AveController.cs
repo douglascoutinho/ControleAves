@@ -23,6 +23,8 @@ namespace Dloc.ControleAvesWeb.Controllers
 
         public IActionResult Index(int page = 1)
         {
+            ViewBag.AvesInativas = _aveRepository.ConsultarTodos(x => x.ativo == false);
+
             ViewBag.Aves = GetPagedNames(page);
             return View();
         }
@@ -37,7 +39,7 @@ namespace Dloc.ControleAvesWeb.Controllers
             var listUnpaged = _aveRepository.ConsultarTodos(x => x.ativo);
 
             // page the list
-            const int pageSize = 10;
+            const int pageSize = 6;
             var listPaged = listUnpaged.ToPagedList(page ?? 1, pageSize);
 
             // return a 404 if user browses to pages beyond last page. special case first page if no items exist
