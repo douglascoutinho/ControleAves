@@ -1,0 +1,511 @@
+﻿@model Dloc.ControleAvesWeb.Models.MainAveModel
+@using Dloc.Domain.Enumeration;
+@using DLOC.ControleAvesWeb.Util.Menssagem
+
+@{ ViewData["Title"] = "Caracteristicas";
+
+                var nome = Model.Ave.codigo.ToString();
+                nome += Model.Ave.nome == null ? "" : "-" + Model.Ave.nome; }
+
+<div class="container">
+    <section>
+        <form asp-action="Edit">
+            <div class="card">
+
+                <div class="card-header">
+                    <label>@ViewData["Title"]:  <b> @nome</b></label>
+                </div>
+                <input type="hidden" asp-for="Ave.id" />
+
+                <div class="card-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#pais" role="tab" aria-controls="home" aria-selected="true">Pais</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#filhos" role="tab" aria-controls="contact" aria-selected="false">Filhos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#mutacao" role="tab" aria-controls="contact" aria-selected="false">Mutações</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#portador" role="tab" aria-controls="contact" aria-selected="false">Portador</a>
+                        </li>
+                    </ul>
+                    <div class="spacer"></div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="pais" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Pesquisa</label>
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Pai</label>
+                                    <select asp-for="Pai.id_pai" asp-items="@Model.ItemMachos" data-val="false" class="form-control">
+                                        <option value="">Selecione...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Pesquisa</label>
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Mãe</label>
+                                    <select asp-for="Mae.id_mae" asp-items="@Model.ItemFemeas" data-val="false" class="form-control">
+                                        <option value="">Selecione...</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="filhos" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Pesquisar Filho(a)</label>
+                                    <input type="text" class="form-control" />
+                                    <span asp-validation-for="Ave.nome" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label class="control-label">Filho(a)</label>
+                                    <select asp-for="Filho.id_filho" asp-items="@Model.ItemFilhos" class="form-control filho">
+                                        <option value="">Selecione...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Pesquisar Pai</label>
+                                    <input type="text" class="form-control" />
+                                    <span asp-validation-for="Ave.nome" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label class="control-label">Parceiro</label>
+                                    <select asp-for="Filho.id_pai" asp-items="@Model.ItemPaiFilhos" class="form-control pai">
+                                        <option value="">Selecione...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Pesquisa Mãe</label>
+                                    <input type="text" class="form-control" />
+                                    <span asp-validation-for="Ave.nome" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label class="control-label">Parceira</label>
+                                    <select asp-for="Filho.id_mae" asp-items="@Model.ItemMaeFilhos" class="form-control mae">
+                                        <option value="">Selecione...</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1" style="top:32px">
+                                    <p>
+                                        <a href="#" class="btn btn-outline-secondary addFilhos">
+                                            <span><b>+</b></span>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <table id="tableFilhos" class="table table-bordered table-striped display">
+                                        <thead>
+                                            <tr>
+                                                <th>Codigo</th>
+                                                <th>Filho</th>
+                                                <th>Pai</th>
+                                                <th>Mãe</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="mutacao" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Pesquisa</label>
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label class="control-label">Mutação</label>
+                                    <select asp-for="Mutacao.id" asp-items="@Model.ItemMutacoes" data-val="false" class="form-control mutacao_select">
+                                        <option value="">Selecione</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1" style="top:32px">
+                                    <p>
+                                        <a href="#" class="btn btn-outline-secondary addMutacoes">
+                                            <span><b>+</b></span>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <table id="tableMutacoes" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>Nome</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="portador" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Pesquisa</label>
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label class="control-label">Portador</label>
+                                    <select asp-for="Portador.id" asp-items="@Model.ItemPortadores" data-val="false" class="form-control portador_select">
+                                        <option value="">Selecione</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1" style="top:32px">
+                                    <p>
+                                        <a href="#" class="btn btn-outline-secondary addPortadores">
+                                            <span><b>+</b></span>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <table id="tablePortadores" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>Nome</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="col-md-12 pull-right text-right">
+                        <input type="submit" value="Salvar" class="btn btn-primary btn-sm" />
+                        <a asp-action="Index" class="btn btn-primary btn-sm">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</div>
+
+
+@section scripts{
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            if (@Model.Ave.sexo == @Html.Raw((int)SexoEnun.Macho).ToString()) {
+
+                $("#Filho_id_pai").attr('disabled', true);
+                $('#Filho_id_pai option[value=' + @Model.Ave.id +']').attr('selected', 'selected');
+            }
+            else {
+
+                $("#Filho_id_mae").attr('disabled', true);
+                $('#Filho_id_mae option[value=' + @Model.Ave.id +']').attr('selected', 'selected');
+            }
+
+            $.ajax({
+                url: "@(Url.Action("GetPortadores", "Caracteristica"))",
+                data: { "id": $('#Ave_id').val() },
+                cache: false,
+                type: "GET",
+                success: function (result) {
+
+                    var coluna = "";
+
+                    for (var i = 0; i < result.data.length; i++) {
+
+                        coluna += "<tr>";
+                        coluna += "<td class=portador>" + result.data[i].id_portador + "</td>";
+                        coluna += "<td>" + result.data[i].ds_portador + "</td>";
+
+                        coluna += "<td style='width:20px'><a href='#'  id='" + result.data[i].id_portadorAve + "' onclick='excluirPortador(this)'>Excluir</a></td>";
+
+                        coluna += '<input type="hidden"  name="Portadores.index" value="' + result.data[i].id_portador + '" />';
+                        coluna += '<input type="hidden"  name="Portadores[' + result.data[i].id_portador + '].id" value="' + result.data[i].id_portador + '" />';
+
+                        coluna += "</tr>";
+                    }
+
+                    $("#tablePortadores tbody").empty();
+                    $("#tablePortadores tbody").append(coluna);
+
+                }, error: function (request, status, error) {
+                    alert(request.responseText);
+                }
+            });
+
+            $.ajax({
+                url: "@(Url.Action("GetMutacoes", "Caracteristica"))",
+                data: { "id": $('#Ave_id').val() },
+                cache: false,
+                type: "GET",
+                success: function (result) {
+
+                    var coluna = "";
+
+                    for (var i = 0; i < result.data.length; i++) {
+
+                        coluna += "<tr>";
+                        coluna += "<td class=mutacao>" + result.data[i].id_mutacao + "</td>";
+                        coluna += "<td>" + result.data[i].ds_mutacao + "</td>";
+
+                        coluna += "<td style='width:20px'><a href='#'  id='" + result.data[i].id_mutacaoAve + "' onclick='excluirMutacao(this)'>Excluir</a></td>";
+
+                        coluna += '<input type="hidden"  name="Mutacoes.index" value="' + result.data[i].id_mutacao + '" />';
+                        coluna += '<input type="hidden"  name="Mutacoes[' + result.data[i].id_mutacao + '].id" value="' + result.data[i].id_mutacao + '" />';
+
+
+                        coluna += "</tr>";
+                    }
+
+                    $("#tableMutacoes tbody").empty();
+                    $("#tableMutacoes tbody").append(coluna);
+
+                }, error: function (request, status, error) {
+                    alert(request.responseText);
+                }
+             });
+
+            $.ajax({
+                url: "@(Url.Action("GetFilhos", "Caracteristica"))",
+                data: { "id": $('#Ave_id').val() },
+                cache: false,
+                type: "GET",
+                success: function (result) {
+
+                    var coluna = "";
+
+                    for (var i = 0; i < result.data.length; i++) {
+
+                        coluna += "<tr>";
+                        coluna += "<td class=filho>" + result.data[i].id_filho + "</td>";
+                        coluna += "<td>" + result.data[i].nm_filho + "</td>";
+                        coluna += "<td>" + result.data[i].nm_pai + "</td>";
+                        coluna += "<td>" + result.data[i].nm_mae + "</td>";
+                        coluna += "<td style='width:20px'><a href='#'  id='" + result.data[i].id_filho + "' onclick='excluirFilho(this)'>Excluir</a></td>";
+
+                        coluna += '<input type="hidden"  name="Filhos.index" value="' + result.data[i].id_filho + '" />';
+                        coluna += '<input type="hidden"  name="Filhos[' + result.data[i].id_filho + '].id_filho" value="' + result.data[i].id_filho + '" />';
+                        coluna += '<input type="hidden"  name="Filhos[' + result.data[i].id_filho + '].id_pai" value="' + result.data[i].id_pai + '" />';
+                        coluna += '<input type="hidden"  name="Filhos[' + result.data[i].id_filho + '].id_mae" value="' + result.data[i].id_mae + '" />';
+
+                        coluna += "</tr>";
+                    }
+
+                    $("#tableFilhos tbody").empty();
+                    $("#tableFilhos tbody").append(coluna);
+
+                }, error: function (request, status, error) {
+
+                    alert(request.responseText);
+                }
+            });
+        });
+
+        $(".addPortadores").click(function () {
+
+            var value_portador = $(".portador_select").val();
+            var portador = $("#Portador_id :selected").text();
+
+            if (value_portador != 'undefined' && value_portador != '') {
+
+                var coluna = "<tr>";
+
+                coluna += "<td class=portador> " + value_portador + "</td > ";
+                coluna += "<td> " + portador + "</td > ";
+                coluna += "<td style = 'width:20px'> <a href='#' onclick='excluir(this)'>Excluir</a> </td> ";
+
+                coluna += '<input type = "hidden" name = "Portadores.Index" value = "' + value_portador + '" /> ';
+                coluna += '<input type = "hidden" name = "Portadores[' + value_portador + '].id" value = "' + value_portador + '" /> ';
+
+                coluna += "</tr>";
+
+                var decisao = 'true';
+
+                $('#tablePortadores tr').each(function () {
+
+                    var id_portador = $(this).find(".portador").text();
+
+                    if (id_portador.trim() == value_portador.trim()) {
+                        decisao = 'false';
+                    }
+                });
+
+                if (decisao == 'true') {
+                    $("#tablePortadores tbody").append(coluna);
+                }
+            }
+            else {
+
+                alert('Campo Vazio!')
+            }
+        });
+
+        $(".addMutacoes").click(function () {
+
+            var value_mutacao = $(".mutacao_select").val();
+            var mutacao = $("#Mutacao_id :selected").text();
+
+            if (value_mutacao != 'undefined' && value_mutacao != '') {
+
+                var coluna = "<tr>";
+
+                coluna += "<td class=mutacao> " + value_mutacao + "</td > ";
+                coluna += "<td> " + mutacao + "</td > ";
+                coluna += "<td style = 'width:20px'> <a href='#' onclick='excluir(this)'>Excluir</a> </td> ";
+
+                coluna += '<input type = "hidden" name = "Mutacoes.Index" value = "' + value_mutacao + '" /> ';
+                coluna += '<input type = "hidden" name = "Mutacoes[' + value_mutacao + '].id" value = "' + value_mutacao + '" /> ';
+
+                coluna += "</tr>";
+
+                var decisao = 'true';
+
+                $('#tableMutacoes tr').each(function () {
+
+                    var id_mutacao = $(this).find(".mutacao").text();
+
+                    if (id_mutacao.trim() == value_mutacao.trim()) {
+                        decisao = 'false';
+                    }
+                });
+
+                if (decisao == 'true') {
+                    $("#tableMutacoes tbody").append(coluna);
+                }
+            }
+            else {
+
+                alert('Campo Vazio!')
+            }
+        });
+
+        $(".addFilhos").click(function () {
+
+            var value_pai = $(".pai").val();
+            var value_mae = $(".mae").val();
+            var value_filho = $(".filho").val();
+
+            var pai = $("#Filho_id_pai :selected").text();
+            var mae = $("#Filho_id_mae :selected").text();
+            var filho = $("#Filho_id_filho :selected").text();
+
+            if (value_pai != 'undefined' && value_pai != '' &&
+                value_mae != 'undefined' && value_mae != '' &&
+                value_filho != 'undefined' && value_filho != '') {
+
+                var coluna = "<tr>";
+
+                coluna += "<td class=filho> " + value_filho + "</td > ";
+                coluna += "<td> " + filho + "</td > ";
+                coluna += "<td> " + pai + "</td > ";
+                coluna += "<td> " + mae + "</td > ";
+                coluna += "<td style = 'width:20px'> <a href='#' onclick='excluir(this)'>Excluir</a> </td> ";
+
+                coluna += '<input type = "hidden" name = "Filhos.Index" value = "' + value_filho + '" /> ';
+                coluna += '<input type = "hidden" name = "Filhos[' + value_filho + '].id_filho" value = "' + value_filho + '" /> ';
+                coluna += '<input type = "hidden" name = "Filhos[' + value_filho + '].id_pai" value = "' + value_pai + '" /> ';
+                coluna += '<input type = "hidden" name = "Filhos[' + value_filho + '].id_mae" value = "' + value_mae + '" /> ';
+
+                coluna += "</tr>";
+
+                var decisao = 'true';
+
+                $('#tableFilhos tr').each(function () {
+
+                    var nm_filho = $(this).find(".filho").text();
+                    if (nm_filho.trim() == value_filho.trim()) {
+                        decisao = 'false';
+                    }
+                });
+
+                if (decisao == 'true') {
+                    $("#tableFilhos tbody").append(coluna);
+                }
+            }
+            else {
+
+                toastr.warning("@Mensagens.msgCampoObrigatorio", {});
+            }
+        });
+
+        function excluir(e) {
+
+            $(e).parents('tr').remove();
+        }
+
+        function excluirPortador(e) {
+
+            $.ajax({
+                url: "@(Url.Action("DeletePortador", "Caracteristica"))",
+                data: { "id": e.id },
+                cache: false,
+                type: "GET",
+                success: function (result) {
+
+                    if (result.data.length == 0) {
+                        toastr.success("@Mensagens.msgExclusaoSucesso", {});
+                        $(e).parents('tr').remove();
+                    }
+                }
+            });
+        }
+
+        function excluirMutacao(e) {
+
+            $.ajax({
+                url: "@(Url.Action("DeleteMutacao", "Caracteristica"))",
+                data: { "id": e.id },
+                cache: false,
+                type: "GET",
+                success: function (result) {
+
+                    if (result.data.length == 0) {
+                        toastr.success("@Mensagens.msgExclusaoSucesso", {});
+                        $(e).parents('tr').remove();
+                    }
+                }
+            });
+        }
+
+        function excluirFilho(e) {
+
+            $.ajax({
+                url: "@(Url.Action("DeleteFilho", "Caracteristica"))",
+                data: { "id": e.id },
+                cache: false,
+                type: "GET",
+                success: function (result) {
+                    if (result.data.length == 0) {
+                        toastr.success("@Mensagens.msgExclusaoSucesso", {});
+                        $(e).parents('tr').remove();
+                    }
+                }
+            });
+        }
+
+    </script>
+}

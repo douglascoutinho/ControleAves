@@ -1,0 +1,85 @@
+﻿@using DLOC.ControleAvesWeb.Util.Menssagem;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/thirdparty.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/thirdparty.min.css" />
+        <link rel="stylesheet" href="~/css/site.min.css" />
+    </environment>
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/img/icons/home_black_24dp.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+                </a>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <div class="navbar-collapse collapse">
+                        <ul class="navbar-nav mr-auto">
+                            <li is-active-route asp-controller="Ave"><a class="nav-item nav-link" asp-controller="Ave" asp-action="index">Aves</a></li>
+                            <li is-active-route asp-controller="Caracteristica"><a class="nav-item nav-link" asp-controller="Caracteristica" asp-action="index">Caracteristicas</a></li>
+                            <li is-active-route asp-controller="Mutacao"><a class="nav-item nav-link" asp-controller="Mutacao" asp-action="index">Mutações</a></li>
+                            <li is-active-route asp-controller="Portador"><a class="nav-item nav-link" asp-controller="Portador" asp-action="index">Portador</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - Controle de Aves - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <environment include="Development">
+        <script src="~/js/thirdparty.min.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment exclude="Development">
+        <script src="~/js/thirdparty.min.js" asp-append-version="true"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @RenderSection("Scripts", required: false)
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                showCookieMessage('@ToastrMessageEx.DefaultCookieName');
+            });
+        });
+    </script>
+
+</body>
+</html>
+

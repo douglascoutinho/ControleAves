@@ -1,0 +1,24 @@
+﻿@model Dloc.ControleAvesWeb.Models.MainAveModel
+
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <label><b>@ViewData["Title"]</b></label>
+        </div>
+        <div class="card-body">
+            <vc:detalhe-ave id="@Model.Ave.id"></vc:detalhe-ave>
+        </div>
+        <div class="card-footer">
+            <div class="col-md-12 pull-right text-right">
+                <a asp-action="Index" class="btn btn-primary btn-sm">Voltar</a>
+            </div>
+        </div>
+    </div>
+</div>

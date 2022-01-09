@@ -1,0 +1,30 @@
+﻿@model Dloc.Domain.Entities.Portador
+
+@{
+    ViewData["Title"] = "Portador";
+}
+
+<div class="container">
+    <form asp-action="Edit">
+        <div class="card">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id" />
+            <div class="card-header"><b> Editar @ViewData["Title"]</b></div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label asp-for="ds_portador" class="control-label"></label>
+                        <input asp-for="ds_portador" class="form-control" autofocus/>
+                        <span asp-validation-for="ds_portador" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="col-md-12 pull-right text-right">
+                    <input type="submit" value="Salvar" class="btn btn-primary btn-sm" />
+                    <a asp-action="Index" class="btn btn-primary btn-sm">Voltar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

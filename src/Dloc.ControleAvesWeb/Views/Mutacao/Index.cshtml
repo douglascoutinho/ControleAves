@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Dloc.Domain.Entities.Mutacao>
+
+@{
+    ViewData["Title"] = "Mutação";
+}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <a href="@Url.Action("Create", "Mutacao")" class="btn btn-sm btn-outline-primary" title="Cadastrar">Cadastrar @ViewData["Title"] </a>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ds_mutacao)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr ondblclick="goToDetails(@item.id)">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ds_mutacao)
+                            </td>
+                            <td>
+                                <a href="#" id="@item.id" class="edit"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
+                                <a href="#deleteEmployeeModal" id="@item.id" class="delete" onclick="excluir(this)" data-toggle="modal" data-target="#excluir"><i class="material-icons" data-toggle="tooltip" title="Excluir">&#xE872;</i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+       function goToEdit(id) {
+
+            location.href = "@Url.Action("Edit", "Mutacao", new {id= "id" })".replace("id", id.toString());
+        }
+
+    </script>
+}

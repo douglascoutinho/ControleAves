@@ -1,0 +1,40 @@
+﻿@model Dloc.ControleAvesWeb.Models.MainAveModel
+
+@{ ViewData["Title"] = "Caracteristicas"; }
+
+<div class="container">
+    <div class="card">
+        <div class="card-header"><b>@ViewData["Title"] das Aves</b></div>
+        <div class="card-body">
+            <partial name="_AvesPartial" />
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        function goToDetails(id) {
+
+		    location.href = "@Url.Action("Details", "Caracteristica", new { id = "id" })".replace("id", id.toString());
+        }
+
+       function goToEdit(id) {
+
+            location.href = "@Url.Action("Edit", "Caracteristica", new {id= "id" })".replace("id", id.toString());
+       }
+
+        function goToReativate(id) {
+
+            alert(id);
+
+            location.href = "@Url.Action("Reativar", "Caracteristica", new {id= "id" })".replace("id", id.toString());
+        }
+
+
+
+        
+
+
+    </script>
+}

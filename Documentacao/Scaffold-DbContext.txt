@@ -1,0 +1,3 @@
+	
+Scaffold-DbContext -Context DataContext_TEMP Name=webContext -Tables Ave, Pai, Mae, Filho, Casamento, Portador, Mutacao, MutacaoAve, PortadorAve -OutputDir EntitiesTemp -ContextDir DataContextTemp -Force -Provider Microsoft.EntityFrameworkCore.SqlServer -UseDatabaseNames -Verbose
+

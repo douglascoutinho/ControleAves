@@ -1,0 +1,97 @@
+﻿@model Dloc.ControleAvesWeb.Models.MainAveModel
+@using Dloc.Domain.Enumeration;
+
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+
+    <li class="nav-item">
+        <a class="nav-link active" id="ativo-tab" data-toggle="tab" href="#ativo" role="tab" aria-controls="ativo" aria-selected="true">Ativos</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="inativo-tab" data-toggle="tab" href="#inativo" role="tab" aria-controls="inativo" aria-selected="false">Inativos</a>
+    </li>
+</ul>
+
+
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="ativo" role="tabpanel" aria-labelledby="profile-tab">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Ave.id)</th>
+                    <th>@Html.DisplayNameFor(model => model.Ave.nome)</th>
+                    <th>@Html.DisplayNameFor(model => model.Ave.sexo)</th>
+                    <th>@Html.DisplayNameFor(model => model.Ave.cor)</th>
+                    <th>@Html.DisplayNameFor(model => model.Ave.dt_nascimento)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.AvesAtivas)
+                {
+                <tr ondblclick="goToDetails(@item.id)">
+                    <td>@Html.DisplayFor(modelItem => item.codigo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.nome)</td>
+                    <td>
+                        @if (item.sexo.Equals((int)SexoEnun.Femea))
+                        {
+                <span>Femea</span> }
+                                else
+                                {
+                <span>Macho</span>}
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.cor)</td>
+                    <td>@Html.DisplayFor(modelItem => item.dt_nascimento)</td>
+                    <td>
+                        <a href="#" id="@item.id" class="edit"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
+                        <a href="deleteEmployeeModal" id="@item.id" class="delete" onclick="excluir(this)" data-toggle="modal" data-target="#excluir"><i class="material-icons" data-toggle="tooltip" title="Inativar">&#xE5C9;</i></a>
+                    </td>
+                </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="tab-pane fade" id="inativo" role="tabpanel" aria-labelledby="contact-tab">
+        <table id="tableInativo" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Ave.id)</th>
+                    <th>@Html.DisplayNameFor(model => model.Ave.nome)</th>
+                    <th>@Html.DisplayNameFor(model => model.Ave.sexo)</th>
+                    <th>@Html.DisplayNameFor(model => model.Ave.cor)</th>
+                    <th>@Html.DisplayNameFor(model => model.Ave.dt_nascimento)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.AvesInativas)
+                {
+                    <tr ondblclick="goToDetails(@item.id)">
+                        <td>@Html.DisplayFor(modelItem => item.codigo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.nome)</td>
+                        <td>
+                            @if (item.sexo.Equals((int)SexoEnun.Femea))
+                            {
+                                <span>Femea</span> 
+                            }
+                            else
+                            {
+                                 <span>Macho</span>
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.cor)</td>
+                        <td>@Html.DisplayFor(modelItem => item.dt_nascimento)</td>
+                        <td>
+                            <a href='@Url.Action("Reativar", "Caracteristica", new { id = item.id} )' title="Reativar">
+                                <img src="~/img/icons/highlight_off_black_24dp.svg" width="30" height="30" class="d-inline-block align-top" alt="Reativar">
+                            </a>
+
+                            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                        </td>
+                    </tr>
+                  }
+               </tbody>
+        </table>
+    </div>
+</div>

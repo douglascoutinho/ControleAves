@@ -1,0 +1,53 @@
+﻿@model Dloc.Domain.Entities.Ave;
+
+@{
+    ViewData["Title"] = "Ave";
+}
+
+<div class="container">
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="card">
+            <div class="card-header"><b>Cadastrar @ViewData["Title"]</b></div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="nome" class="control-label"></label>
+                        <input asp-for="nome" class="form-control" autofocus />
+                        <span asp-validation-for="nome" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="dt_nascimento" class="control-label"></label>
+                        <input asp-for="dt_nascimento" class="form-control" type="date" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="cor" class="control-label"></label>
+                        <select asp-for="cor" class="form-control">
+                            <option value="">Selecione</option>
+                            <option value="Azul">Azul</option>
+                            <option value="Verde">Verde</option>
+                        </select>
+                        <span asp-validation-for="cor" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="sexo" class="control-label"></label>
+                        <select asp-for="sexo" class="form-control">
+                            <option value="">Selecione</option>
+                            <option value="1">Macho</option>
+                            <option value="0">Femea</option>
+                        </select>
+                        <span asp-validation-for="sexo" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="col-md-12 pull-right text-right">
+                    <input type="submit" value="Salvar" class="btn btn-primary btn-sm" />
+                    <a asp-action="Index" class="btn btn-primary btn-sm">Voltar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

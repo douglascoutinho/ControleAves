@@ -1,0 +1,47 @@
+[
+  {
+    "outputFileName": "wwwroot/css/thirdparty.min.css",
+    "inputFiles": [
+
+      "wwwroot/lib/bootstrap/dist/css/bootstrap.css",
+      "wwwroot/lib/font-awesome/css/font-awesome.css",
+      "wwwroot/lib/datatables/css/dataTables.bootstrap.css",
+      "wwwroot/lib/toastr.js/toastr.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/thirdparty.min.js",
+    "inputFiles": [
+
+      "wwwroot/lib/jquery/dist/jquery.js",
+      "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js",
+      "wwwroot/lib/datatables/js/jquery.dataTables.js",
+      "wwwroot/lib/datatables/js/dataTables.bootstrap.js",
+      "wwwroot/lib/toastr.js/toastr.min.js",
+      "wwwroot/lib/js-cookie/js.cookie.js",
+      "wwwroot/lib/jqueryui/jquery-ui.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/js/site.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]

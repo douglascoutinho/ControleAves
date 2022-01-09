@@ -1,0 +1,210 @@
+﻿@model Dloc.ControleAvesWeb.Models.MainAveModel
+@using System.Linq;
+@using Dloc.Domain.Entities;
+@using Dloc.Domain.DTOs;
+@using Dloc.Domain.Enumeration;
+
+
+<div class="tree">
+
+    @if (Model.Pai != null || Model.Mae != null)
+    {
+        <ul>
+            <li>
+                @if (Model.Pai != null)
+                {
+                    <a href="@Url.Action("Details", "Ave", new { id = Model.Pai.id_paiNavigation.id })">Pai: @Model.CodigoNome(Model.Pai.id_paiNavigation)</a>
+                }
+
+                @if (Model.Mae != null)
+                {
+                    <a href="@Url.Action("Details", "Ave", new { id = Model.Mae.id_maeNavigation.id })"> Mãe: @Model.CodigoNome(Model.Mae.id_maeNavigation)</a>
+                }
+
+            </li>
+        </ul>}
+    <ul>
+        <li>
+            <a href="#">@Model.CodigoNome(Model.Ave)</a>
+
+            @if (Model.Casamentos.Count > 0)
+            {
+                <ul>
+                    @foreach (var casamento in Model.Casamentos)
+                    {
+                        <li>
+
+                            @if (Model.Ave.sexo == (int)SexoEnun.Macho)
+                            {
+                                <a href="@Url.Action("Details", "Ave", new { id = casamento.id_femeaNavigation.id })">Parceira:  @Model.CodigoNome(casamento.id_femeaNavigation)</a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Details", "Ave", new { id = casamento.id_machoNavigation.id })">Parceiro:  @Model.CodigoNome(casamento.id_machoNavigation)</a>
+                            }
+
+
+                            @{ var filhos = new List<Filho>();
+
+                                if (Model.Ave.sexo == (int)SexoEnun.Macho)
+                                {
+                                    filhos = Model.Filhos.Where(x => x.id_maeNavigation.id == casamento.id_femeaNavigation.id).ToList();
+                                }
+                                else
+                                {
+                                    filhos = Model.Filhos.Where(x => x.id_paiNavigation.id == casamento.id_machoNavigation.id).ToList();
+                                }
+                            }
+
+
+                            @if (filhos.Count > 0)
+                            {
+                                <ul>
+
+                                    @foreach (var filho in filhos)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Details", "Ave", new { id = filho.id_filhoNavigation.id })"> @Model.CodigoNome(filho.id_filhoNavigation)</a>
+
+                                            @{ var netos = new List<Filho>();}
+
+
+                                            @if (filho.id_filhoNavigation.sexo == (int)SexoEnun.Macho)
+                                            {
+                                                netos = Model.Netos.Where(x => x.id_pai == filho.id_filho).ToList();
+                                            }
+                                            else
+                                            {
+                                                netos = Model.Netos.Where(x => x.id_mae == filho.id_filho).ToList();
+                                            }
+
+                                            @if (netos.Count > 0)
+                                            {
+                                                <ul>
+                                                    @foreach (var neto in netos)
+                                                    {
+                                                        <li>
+                                                            <a href="@Url.Action("Details", "Ave", new { id = neto.id_filhoNavigation.id })"> @Model.CodigoNome(neto.id_filhoNavigation)</a>
+
+                                                            @{ var bisnetos = new List<Filho>();}
+
+
+                                                            @if (neto.id_filhoNavigation.sexo == (int)SexoEnun.Macho)
+                                                            {
+                                                                bisnetos = Model.Bisnetos.Where(x => x.id_pai == neto.id_filho).ToList();
+                                                            }
+                                                            else
+                                                            {
+                                                                bisnetos = Model.Bisnetos.Where(x => x.id_mae == neto.id_filho).ToList();
+                                                            }
+
+
+                                                            @if (bisnetos.Count > 0)
+                                                            {
+                                                                <ul>
+                                                                    @foreach (var bisneto in bisnetos)
+                                                                    {
+                                                                        <li>
+                                                                            <a href="@Url.Action("Details", "Ave", new { id = bisneto.id_filhoNavigation.id })"> @Model.CodigoNome(bisneto.id_filhoNavigation)</a>
+
+                                                                            @{ var trinetos = new List<FilhoDTO>();}
+
+
+                                                                            @if (bisneto.id_filhoNavigation.sexo == (int)SexoEnun.Macho)
+                                                                            {
+                                                                                trinetos = Model.Trinetos.Where(x => x.id_pai == bisneto.id_filho).ToList();
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                trinetos = Model.Trinetos.Where(x => x.id_mae == bisneto.id_filho).ToList();
+                                                                            }
+
+                                                                            @if (trinetos.Count > 0)
+                                                                            {
+                                                                                <ul>
+                                                                                    @foreach (var trineto in trinetos)
+                                                                                    {
+                                                                                        <li>
+
+                                                                                            <a href="@Url.Action("Details", "Ave", new { id = trineto.id_filho })">@trineto.nm_filho</a>
+                                                                                        </li>
+                                                                                    }
+                                                                                </ul>
+                                                                            }
+
+                                                                        </li>
+                                                                    }
+                                                                </ul>
+                                                            }
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            }
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    }
+                </ul>
+            }
+        </li>
+    </ul>
+</div>
+
+
+
+
+
+
+
+
+
+@*<div class="tree">
+        <ul>
+            <li>
+                <a href="#">@Model.Ave.nome</a>
+                <ul>
+
+                    <li>
+                        <a href="#">Esposa: Nika</a>
+                        <ul>
+                            <li>
+                                <a href="#">Paulinho</a>
+                            </li>
+
+                            <li>
+                                <a href="#">Valdecir</a>
+
+                                <ul>
+                                    <li><a href="#">Ragnar Lodbrok</a></li>
+                                    <li><a href="#">Rolo Lodbrok</a></li>
+                                    <li><a href="#">Maisa</a></li>
+                                </ul>
+
+                            </li>
+
+                            <li>
+                                <a href="#">Jurandir</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#">Esposa: Maisa</a>
+                        <ul>
+                            <li>
+                                <a href="#">Filhote 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Filhote 2</a>
+                            </li>
+                            <li>
+                                <a href="#">Filhote 3</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>*@

@@ -1,0 +1,196 @@
+﻿@using X.PagedList.Mvc.Core; @*import this so we get our HTML Helper*@
+@using X.PagedList; @*import this so we can cast our list to IPagedList (only necessary because ViewBag is dynamic)*@
+@using X.PagedList.Mvc.Core.Fluent
+@using X.PagedList.Web.Common
+@using Dloc.Domain.Enumeration
+@using DLOC.ControleAvesWeb.Util.Menssagem
+
+
+
+
+@{ ViewData["Title"] = "Aves";
+
+    var pagedList = (IPagedList)ViewBag.Aves; }
+
+<link href="~/css/PagedList.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <a href="@Url.Action("Create", "Ave")" class="btn btn-sm btn-outline-primary" title="Cadastrar">Cadastrar @ViewData["Title"] </a>
+            <div class="pull-right text-right">
+                Total:  <span class="badge badge-pill badge-dark">100  @*@Model.QtdAtiva*@</span>
+            </div>
+        </div>
+        <div class="card-body">
+
+            @*<partial name="_AvesPartial" />*@
+
+
+
+
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+                <li class="nav-item">
+                    <a class="nav-link active" id="ativo-tab" data-toggle="tab" href="#ativo" role="tab" aria-controls="ativo" aria-selected="true">Ativos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="inativo-tab" data-toggle="tab" href="#inativo" role="tab" aria-controls="inativo" aria-selected="false">Inativos</a>
+                </li>
+            </ul>
+
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="ativo" role="tabpanel" aria-labelledby="profile-tab">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>"Nome")</th>
+                                <th>Sexo</th>
+                                <th>Cor)</th>
+                                <th>Data Nascimento</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.Aves)
+                            {
+                                <tr ondblclick="goToDetails(@item.id)">
+                                    <td>  @item.codigo </td>
+                                    <td>@item.nome</td>
+                                    <td>
+                                        @if (@item.sexo.Equals((int)SexoEnun.Femea))
+                                        {
+                                            <span>Femea</span> }
+                                        else
+                                        {
+                                            <span>Macho</span>}
+                                    </td>
+                                    <td>@item.cor</td>
+                                    <td>@item.dt_nascimento</td>
+                                    <td>
+                                        <a href="#" id="@item.id" class="edit"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
+                                        <a href="deleteEmployeeModal" id="@item.id" class="delete" onclick="excluir(this)" data-toggle="modal" data-target="#excluir"><i class="material-icons" data-toggle="tooltip" title="Inativar">&#xE5C9;</i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+                    @(Html.Pager(pagedList)
+                                            .Url(page => Url.Action("Index", new { page }))
+                                            .WithPartialView("Paging/_Pager_85")
+                                            .DisplayLinkToFirstPage (PagedListDisplayMode.IfNeeded)
+                                            .DisplayLinkToLastPage(PagedListDisplayMode.IfNeeded)
+                                            .DisplayLinkToPreviousPage()
+                                            .DisplayLinkToNextPage()
+                                            .MaximumPageNumbersToDisplay(3)
+                                            .Build())
+
+                </div>
+
+
+
+                @*<div class="tab-pane fade" id="inativo" role="tabpanel" aria-labelledby="contact-tab">
+                                        <table id="tableInativo" class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Código</th>
+                                                    <th>"Nome")</th>
+                                                    <th>Sexo</th>
+                                                    <th>Cor)</th>
+                                                    <th>Data Nascimento</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model)
+                                                {
+                                    <tr ondblclick="goToDetails(@item.id)">
+                                        <td>@Html.DisplayFor(modelItem => item.codigo)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.nome)</td>
+                                        <td>
+                                            @if (item.sexo.Equals((int)SexoEnun.Femea))
+                                            {
+                            <span>Femea</span> }
+                        else
+                        {
+                    <span>Macho</span>}
+                                        </td>
+                                        <td>@Html.DisplayFor(modelItem => item.cor)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.dt_nascimento)</td>
+                                        <td>
+                                            <a href='@Url.Action("Reativar", "Caracteristica", new { id = item.id} )' title="Reativar">
+                                                <img src="~/img/icons/highlight_off_black_24dp.svg" width="30" height="30" class="d-inline-block align-top" alt="Reativar">
+                                            </a>
+
+                                            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                        </td>
+                                    </tr>
+                    }
+                                            </tbody>
+                                        </table>
+
+                                        @Html.PagedListPager(Model, pagina => Url.Action("Index", new { pagina }))
+
+                                    </div>*@
+
+
+            </div>
+
+
+
+
+
+        </div>
+        <partial name="_PartiaModalExcluir" />
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+
+
+        $(".deletemodal").click(function () {
+
+            var id = $('#id_selected').val();
+            $.ajax({
+            url: "@(Url.Action("Desativar", "Ave"))",
+            data: { "id": id },
+            cache: false,
+            type: "GET",
+            success: function (result) {
+
+                if (result.data.length == 0) {
+                    var linha = $("#" + id);
+                    $(linha).parents('tr').remove();
+                     toastr.success("@Mensagens.msgDesativarSucesso", {});
+                }
+                else if (result.data.length == 1) {
+                    toastr.error("@Mensagens.msgErro", {});
+                }
+            }});
+        });
+
+        function excluir(e) {
+
+            $('#id_selected').remove();
+            var input = '<input type="hidden" id="id_selected" value="' + e.id + '" />';
+            $(".card-body").append(input);
+        }
+
+        function goToDetails(id) {
+
+		    location.href = "@Url.Action("Details", "Ave", new { id = "id" })".replace("id", id.toString());
+        }
+
+       function goToEdit(id) {
+
+            location.href = "@Url.Action("Edit", "Ave", new {id= "id" })".replace("id", id.toString());
+       }
+
+    </script>
+}
