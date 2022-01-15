@@ -36,7 +36,7 @@ namespace Dloc.ControleAvesWeb.Controllers
                 return null;
 
             // retrieve list from database/whereverand
-            var listUnpaged = _aveRepository.ConsultarTodos(x => x.ativo);
+            var listUnpaged = _aveRepository.ConsultarTodos();
 
             // page the list
             const int pageSize = 6;
@@ -109,6 +109,24 @@ namespace Dloc.ControleAvesWeb.Controllers
                 _aveRepository.Atualizar(ave);
 
                 return Json(new { data = string.Empty });
+            }
+            catch
+            {
+                return Json(new { data = "1" });
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Reativar(int id)
+        {
+            try
+            {
+                var ave = _aveRepository.ConsultarPorId(id);
+                ave.ativo = true;
+                _aveRepository.Atualizar(ave);
+
+                return Json(new { data = string.Empty });
+
             }
             catch
             {

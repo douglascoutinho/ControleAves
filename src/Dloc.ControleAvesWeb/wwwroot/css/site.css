@@ -14,6 +14,13 @@ a {
   color: #0366d6;
 }
 
+    a.btn.btn-secondary.btn-sm.disabled {
+        color: currentColor;
+        cursor: not-allowed !important;
+        opacity: 0.5;
+        text-decoration: none;
+    }
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
